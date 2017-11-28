@@ -1,7 +1,3 @@
-/**
- * Reta Youssif
- * Object Oriented Programming
- */
 
 //package assignment2.miniTwitter;
 /** 

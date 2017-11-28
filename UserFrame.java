@@ -2,6 +2,7 @@
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.Calendar;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -34,6 +35,8 @@ public class UserFrame extends javax.swing.JFrame {
     private DefaultListModel tweetModel;
     private javax.swing.JLabel userLabel;
     private javax.swing.JTextField usernameTextField;
+    protected long lastUpdateTime;
+    protected String lastUpdatedUser;
     // End of variables declaration
 
     public UserFrame(UserComponent user) {
@@ -203,6 +206,23 @@ public class UserFrame extends javax.swing.JFrame {
             //notify observers
             model.addElement(tweet.getTweet());
         }
+        lastUpdateTime = System.currentTimeMillis();
+        lastUpdatedUser = user.name;
+        
+    }
+    //this method will print the last update and posts was done
+    //by the user or followers to the user
+    public void lastUpdate(){
+    	String lastUser = user.name;
+    	Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(lastUpdateTime);
+        System.out.println("Last update was performed on: " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE)+
+        		" by " + lastUser);
+    	
+    }
+    
+    public String lastUpdatedID(){
+    	return lastUpdatedUser;
     }
 
 }

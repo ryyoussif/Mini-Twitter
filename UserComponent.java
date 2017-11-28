@@ -1,6 +1,7 @@
 //package assignment2.miniTwitter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -11,12 +12,15 @@ public class UserComponent extends Component {
     
     private Set<UserComponent> following;
     private ArrayList<Tweet> tweets;
+    private long creationTime;
+    
     
     public UserComponent(String name, GroupComponent parent) {
         this.name = name;
         this.parentComponent = parent;
         following = new HashSet<UserComponent>();
         tweets = new ArrayList<Tweet>();
+        creationTime = System.currentTimeMillis();
     }
     
     // Used to display it in the JList in user frame
@@ -57,7 +61,13 @@ public class UserComponent extends Component {
     
     @Override
     public void displayInfo() {
+    	UserFrame user = new UserFrame(this);
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.setTimeInMillis(creationTime);
+    	System.out.println(this.name + " was created on " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
         System.out.println("User: " + this.name);
+        System.out.println("Last Update was on : " + user.lastUpdateTime);
+        
     }
     
     /* UserComponent will use depth first search to traverse the tree 
@@ -79,6 +89,7 @@ public class UserComponent extends Component {
     
     @Override
     public void accept(VisitorInterface visitor) {
+ 
         visitor.visit(this);
     }
     

@@ -1,9 +1,12 @@
 //package assignment2.miniTwitter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
  
 public class GroupComponent extends Component {
+	private long creationTime;
+	
     
     public GroupComponent(String name, GroupComponent parent) {
         this.name = name;
@@ -19,6 +22,9 @@ public class GroupComponent extends Component {
                 c.displayInfo();
             }
         }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(creationTime);
+        System.out.println(this.name + " was created on " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
     }
     
     @Override

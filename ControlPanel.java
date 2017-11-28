@@ -3,6 +3,8 @@
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+
 import javax.swing.tree.DefaultTreeModel;
 
 /**
@@ -18,11 +20,17 @@ import javax.swing.tree.DefaultTreeModel;
 public class ControlPanel extends javax.swing.JFrame {
 
     private static ControlPanel instance;
+    private UserFrame lastID;
     
     //Variables to be initialized when instantiating an object
     private javax.swing.JFrame jFrame1;
     private javax.swing.JButton createUserButton;
     private javax.swing.JButton createGroupButton;
+    
+    private javax.swing.JButton validateIDButton;
+    
+    private javax.swing.JButton lastIDUpdateButton;
+    
     private javax.swing.JLabel adminLabel;
     private javax.swing.JLabel hintMessage;
     private javax.swing.JLabel userLabel;
@@ -41,6 +49,8 @@ public class ControlPanel extends javax.swing.JFrame {
     private javax.swing.JButton totalGroupsButton;
     private javax.swing.JTextField totalTweetsField;
     private javax.swing.JTextField positiveTweetsField;
+
+	private int validate;
     // End of variables declaration
 
     private ControlPanel() {
@@ -68,6 +78,10 @@ public class ControlPanel extends javax.swing.JFrame {
         jFrame1 = new javax.swing.JFrame();
         createUserButton = new javax.swing.JButton();
         createGroupButton = new javax.swing.JButton();
+        
+        validateIDButton = new javax.swing.JButton();
+        
+        lastIDUpdateButton = new javax.swing.JButton();
         adminLabel = new javax.swing.JLabel();
         hintMessage = new javax.swing.JLabel();
         userLabel = new javax.swing.JLabel();
@@ -116,6 +130,24 @@ public class ControlPanel extends javax.swing.JFrame {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createGroupButtonActionPerformed(evt);
             }
+        });
+        validateIDButton.setText("validate ID");
+        validateIDButton.setFont(new java.awt.Font("Arial",Font.PLAIN, 20));
+        validateIDButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                validateIDButtonActionPerformed(evt);
+            }
+
+			
+        });
+        lastIDUpdateButton.setText("lastID Update");
+        lastIDUpdateButton.setFont(new java.awt.Font("Arial",Font.PLAIN, 20));
+        lastIDUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lastIDUpdateButtonActionPerformed(evt);
+            }
+
+			
         });
 
         adminLabel.setFont(new java.awt.Font("Arial", Font.BOLD, 20)); 
@@ -214,6 +246,10 @@ public class ControlPanel extends javax.swing.JFrame {
                                     .addComponent(totalUsersButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(validateIDButton, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                                        .addComponent(lastIDUpdateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(totalGroupsField)
                                     .addComponent(totalUsersField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(41, 41, 41)
@@ -265,6 +301,12 @@ public class ControlPanel extends javax.swing.JFrame {
                             .addComponent(positiveTweetsButton)
                             .addComponent(positiveTweetsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(validateIDButton, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+            
+                                    .addComponent(lastIDUpdateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                         .addComponent(hintMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(19, 19, 19))
         );
@@ -272,7 +314,13 @@ public class ControlPanel extends javax.swing.JFrame {
         pack();
     }
    
-    //User frame will open when user clicks on user component from root tree
+    private void lastIDUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    	
+		System.out.println("Last updated user was " + lastID.lastUpdatedUser);
+		
+	}
+
+	//User frame will open when user clicks on user component from root tree
     private void mouseClickedActionPerformed(java.awt.event.MouseEvent evt) {
         if (evt.getClickCount() == 2) {
             Component node = (Component) componentTree.getLastSelectedPathComponent();
@@ -316,6 +364,7 @@ public class ControlPanel extends javax.swing.JFrame {
                 }
                 else {
                     hintMessage.setText("User can only be added to a group");
+                    validate = -1;
                 }
             }
             else {
@@ -353,6 +402,7 @@ public class ControlPanel extends javax.swing.JFrame {
                 }
                 else {
                     hintMessage.setText("Group can only be added inside a group");
+                    validate = -1;
                 }
             }
             else {                     
@@ -363,6 +413,19 @@ public class ControlPanel extends javax.swing.JFrame {
             }
         }        
     }
+    
+    /*This method will valide if any ID used was not unique*/
+    private void validateIDButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    	if(validate != -1){
+    		System.out.println("ID was found that is not unique");
+    	}
+    	else{
+    		System.out.println("All IDs are unique");
+    	}
+		
+	}
+    
+   
 
     /* this method will call visitor to obtain total number of positive tweets */
     private void positiveTweetsButtonActionPerformed(java.awt.event.ActionEvent evt) {
